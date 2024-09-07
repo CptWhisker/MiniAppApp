@@ -9,6 +9,13 @@ import UIKit
 
 final class MiniAppViewController: UIViewController {
     private var expandedMiniApps: Set<IndexPath> = []
+    private var calculatedCellHeight: (IndexPath) -> CGFloat {
+        return { [weak self] indexPath in
+            guard let self = self else { return 0 }
+            let height = self.miniAppTableView.bounds.height
+            return self.expandedMiniApps.contains(indexPath) ? height / 2 : height / 8
+        }
+    }
     
     private lazy var miniAppTableView: UITableView = {
         let tableView = UITableView()
@@ -54,14 +61,13 @@ extension MiniAppViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let height = miniAppTableView.bounds.height
-        return expandedMiniApps.contains(indexPath) ? height / 2 : height / 8
+        return calculatedCellHeight(indexPath)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = AppCellPrototype(
             isExpanded: expandedMiniApps.contains(indexPath),
-            cellHeight: expandedMiniApps.contains(indexPath) ? miniAppTableView.bounds.height / 2 : miniAppTableView.bounds.height / 8,
+            cellHeight: calculatedCellHeight(indexPath),
             style: .default,
             reuseIdentifier: nil
         )
