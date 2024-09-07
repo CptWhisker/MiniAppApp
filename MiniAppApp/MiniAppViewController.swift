@@ -8,11 +8,12 @@
 import UIKit
 
 enum MiniAppType {
-    case dice, counter, animation
+    case dice, counter
 }
 
 final class MiniAppViewController: UIViewController {
     private var expandedMiniApps: Set<IndexPath> = []
+    private var miniApps: [MiniAppType] = []
     private var calculatedCellHeight: (IndexPath) -> CGFloat {
         return { [weak self] indexPath in
             guard let self = self else { return 0 }
@@ -33,6 +34,7 @@ final class MiniAppViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        configureMiniApps()
     }
     
     private func configureUI() {
@@ -44,6 +46,14 @@ final class MiniAppViewController: UIViewController {
             miniAppTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             miniAppTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+    }
+    
+    private func configureMiniApps() {
+        let appTypes: [MiniAppType] = [.dice, .counter]
+        
+        miniApps = (0..<12).map { _ in
+            appTypes.randomElement() ?? .dice
+        }
     }
     
     @objc func toggleExpandCollapse(_ sender: UIButton) {
@@ -61,7 +71,7 @@ final class MiniAppViewController: UIViewController {
 
 extension MiniAppViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 12
+        return miniApps.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -69,18 +79,34 @@ extension MiniAppViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = DiceCell(
-            isExpanded: expandedMiniApps.contains(indexPath),
-            cellHeight: calculatedCellHeight(indexPath),
-            style: .default,
-            reuseIdentifier: nil
-        )
+        let miniAppType = miniApps[indexPath.row]
         
-        cell.titleLabel.text = "Cell \(indexPath.row + 1)"
-        cell.utilityButton.tag = indexPath.row
-        cell.utilityButton.addTarget(self, action: #selector(toggleExpandCollapse), for: .touchUpInside)
-        
-        return cell
+        switch miniAppType {
+        case .counter:
+            let cell = CounterCell(
+                isExpanded: expandedMiniApps.contains(indexPath),
+                cellHeight: calculatedCellHeight(indexPath),
+                style: .default,
+                reuseIdentifier: nil
+            )
+            
+            cell.titleLabel.text = "Counter"
+            cell.utilityButton.tag = indexPath.row
+            cell.utilityButton.addTarget(self, action: #selector(toggleExpandCollapse), for: .touchUpInside)
+            return cell
+        case .dice:
+            let cell = DiceCell(
+                isExpanded: expandedMiniApps.contains(indexPath),
+                cellHeight: calculatedCellHeight(indexPath),
+                style: .default,
+                reuseIdentifier: nil
+            )
+            
+            cell.titleLabel.text = "Dice"
+            cell.utilityButton.tag = indexPath.row
+            cell.utilityButton.addTarget(self, action: #selector(toggleExpandCollapse), for: .touchUpInside)
+            return cell
+        }
     }
 }
 

@@ -14,6 +14,7 @@
 		CE46F68C2C8C8D90004CD3C7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE46F68A2C8C8D90004CD3C7 /* LaunchScreen.storyboard */; };
 		CE46F6942C8C90FC004CD3C7 /* AppCellPrototype.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F6932C8C90FC004CD3C7 /* AppCellPrototype.swift */; };
 		CE46F6962C8CC960004CD3C7 /* DiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F6952C8CC960004CD3C7 /* DiceCell.swift */; };
+		CE46F6982C8CDA62004CD3C7 /* CounterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F6972C8CDA62004CD3C7 /* CounterCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		CE46F68D2C8C8D90004CD3C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE46F6932C8C90FC004CD3C7 /* AppCellPrototype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCellPrototype.swift; sourceTree = "<group>"; };
 		CE46F6952C8CC960004CD3C7 /* DiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceCell.swift; sourceTree = "<group>"; };
+		CE46F6972C8CDA62004CD3C7 /* CounterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				CE46F68D2C8C8D90004CD3C7 /* Info.plist */,
 				CE46F6932C8C90FC004CD3C7 /* AppCellPrototype.swift */,
 				CE46F6952C8CC960004CD3C7 /* DiceCell.swift */,
+				CE46F6972C8CDA62004CD3C7 /* CounterCell.swift */,
 			);
 			path = MiniAppApp;
 			sourceTree = "<group>";
@@ -140,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE46F6982C8CDA62004CD3C7 /* CounterCell.swift in Sources */,
 				CE46F6942C8C90FC004CD3C7 /* AppCellPrototype.swift in Sources */,
 				CE46F6842C8C8D8D004CD3C7 /* MiniAppViewController.swift in Sources */,
 				CE46F6962C8CC960004CD3C7 /* DiceCell.swift in Sources */,

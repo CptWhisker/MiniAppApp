@@ -3,11 +3,14 @@ import UIKit
 struct DiceCellLayout {
     let cellHeight: CGFloat
     
-    var titleLabelPadding: CGFloat { return 16 }
+    var utilityButtonEdgeInsets: UIEdgeInsets { return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)}
     var utilityButtonPadding: CGFloat { return -16 }
+    var utilityButtonWidth: CGFloat { return 75 }
+    var utilityButtonHeightMultiplier: CGFloat { return 0.5 }
     
-    var collapsedTitleYPosition: CGFloat { return cellHeight / 2 }
-    var expandedTitleYPosition: CGFloat { return cellHeight / 8 }
+    var titleLabelPadding: CGFloat { return 16 }
+    var titleLabelYPositionCollapsed: CGFloat { return cellHeight / 2 }
+    var titleLabelYPositionExpanded: CGFloat { return cellHeight / 8 }
     
     var diceLabelTopPadding: CGFloat { return (cellHeight / 4) + (cellHeight / 12) }
     var diceButtonTopPadding: CGFloat { return diceLabelTopPadding + (cellHeight / 4) + (cellHeight / 12) }
@@ -29,11 +32,16 @@ final class DiceCell: UITableViewCell {
     lazy var utilityButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .green
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 8
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16)
+        button.titleEdgeInsets = layout.utilityButtonEdgeInsets
         return button
     }()
     
-    lazy var diceLabel: UILabel = {
+    private lazy var diceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 25)
@@ -41,7 +49,7 @@ final class DiceCell: UITableViewCell {
         return label
     }()
     
-    lazy var diceButton: UIButton = {
+    private lazy var diceButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Roll D6", for: .normal)
@@ -60,6 +68,8 @@ final class DiceCell: UITableViewCell {
         self.layout = DiceCellLayout(cellHeight: cellHeight)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        self.selectionStyle = .none
+        
         utilityButton.setTitle(isExpanded ? "Collapse" : "Expand", for: .normal)
         configureUI()
     }
@@ -76,10 +86,12 @@ final class DiceCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: layout.titleLabelPadding),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: isExpanded ? layout.expandedTitleYPosition : layout.collapsedTitleYPosition),
+            titleLabel.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: isExpanded ? layout.titleLabelYPositionExpanded : layout.titleLabelYPositionCollapsed),
             
             utilityButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: layout.utilityButtonPadding),
             utilityButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            utilityButton.widthAnchor.constraint(equalToConstant: layout.utilityButtonWidth),
+            utilityButton.heightAnchor.constraint(equalTo: utilityButton.widthAnchor, multiplier: layout.utilityButtonHeightMultiplier),
             
             diceLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             diceLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: layout.diceLabelTopPadding),
