@@ -37,6 +37,14 @@ final class MiniAppViewController: UIViewController {
         configureMiniApps()
     }
     
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        coordinator.animate(alongsideTransition: { _ in
+            self.miniAppTableView.reloadData()
+        }, completion: nil)
+    }
+    
     private func configureUI() {
         view.addSubview(miniAppTableView)
         
