@@ -7,6 +7,10 @@
 
 import UIKit
 
+enum MiniAppType {
+    case dice, counter, animation
+}
+
 final class MiniAppViewController: UIViewController {
     private var expandedMiniApps: Set<IndexPath> = []
     private var calculatedCellHeight: (IndexPath) -> CGFloat {
@@ -65,7 +69,7 @@ extension MiniAppViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = AppCellPrototype(
+        let cell = DiceCell(
             isExpanded: expandedMiniApps.contains(indexPath),
             cellHeight: calculatedCellHeight(indexPath),
             style: .default,
