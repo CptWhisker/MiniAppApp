@@ -31,6 +31,7 @@ final class DiceFullScreenViewController: UIViewController {
     private lazy var diceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Roll result:"
         label.font = .systemFont(ofSize: 25)
         label.textAlignment = .center
         return label

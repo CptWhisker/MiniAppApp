@@ -34,6 +34,7 @@ final class MiniAppViewController: UIViewController {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
+        tableView.delegate = self
         return tableView
     }()
     
@@ -94,10 +95,6 @@ extension MiniAppViewController: UITableViewDataSource {
         return miniApps.count
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return calculatedCellHeight(indexPath)
-    }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let miniAppType = miniApps[indexPath.row]
         
@@ -130,6 +127,13 @@ extension MiniAppViewController: UITableViewDataSource {
             
             return cell
         }
+    }
+}
+
+// MARK: - UITableViewDelegate
+extension MiniAppViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return calculatedCellHeight(indexPath)
     }
 }
 
