@@ -94,6 +94,20 @@ final class CounterCell: UITableViewCell {
         return stackView
     }()
     
+    private lazy var fullScreenButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Full", for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 8
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16)
+        button.titleEdgeInsets = layout.utilityButtonEdgeInsets
+        button.addTarget(self, action: #selector(presentFullScreen), for: .touchUpInside)
+        return button
+    }()
+    
     init(isExpanded: Bool, cellHeight: CGFloat, style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.isExpanded = isExpanded
         self.cellHeight = cellHeight
@@ -115,6 +129,7 @@ final class CounterCell: UITableViewCell {
         contentView.addSubview(utilityButton)
         contentView.addSubview(counterLabel)
         contentView.addSubview(buttonsStackView)
+        contentView.addSubview(fullScreenButton)
                 
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: layout.titleLabelPadding),
@@ -132,11 +147,17 @@ final class CounterCell: UITableViewCell {
             
             buttonsStackView.centerXAnchor.constraint(equalTo: counterLabel.centerXAnchor),
             buttonsStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: layout.counterButtonTopPadding),
-            buttonsStackView.heightAnchor.constraint(equalTo: counterLabel.heightAnchor)
+            buttonsStackView.heightAnchor.constraint(equalTo: counterLabel.heightAnchor),
+            
+            fullScreenButton.trailingAnchor.constraint(equalTo: utilityButton.trailingAnchor),
+            fullScreenButton.topAnchor.constraint(equalTo: utilityButton.bottomAnchor, constant: 16),
+            fullScreenButton.widthAnchor.constraint(equalTo: utilityButton.widthAnchor),
+            fullScreenButton.heightAnchor.constraint(equalTo: utilityButton.heightAnchor)
         ])
         
         counterLabel.isHidden = !isExpanded
         buttonsStackView.isHidden = !isExpanded
+        fullScreenButton.isHidden = !isExpanded
     }
     
     @objc private func incrementValue() {
@@ -145,5 +166,9 @@ final class CounterCell: UITableViewCell {
     
     @objc private func decrementValue() {
         counterValue -= 1
+    }
+    
+    @objc private func presentFullScreen() {
+        print("Full screen")
     }
 }

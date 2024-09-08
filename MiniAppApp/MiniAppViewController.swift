@@ -113,6 +113,7 @@ extension MiniAppViewController: UITableViewDataSource {
             cell.titleLabel.text = "Dice"
             cell.utilityButton.tag = indexPath.row
             cell.utilityButton.addTarget(self, action: #selector(toggleExpandCollapse), for: .touchUpInside)
+            
             return cell
         }
     }

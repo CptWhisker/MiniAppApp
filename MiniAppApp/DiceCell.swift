@@ -23,6 +23,7 @@ final class DiceCell: UITableViewCell {
     var isExpanded: Bool
     var cellHeight: CGFloat
     private let layout: DiceCellLayout
+    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -62,6 +63,20 @@ final class DiceCell: UITableViewCell {
         return button
     }()
     
+    private lazy var fullScreenButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Full", for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 8
+        button.setTitleColor(.black, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16)
+        button.titleEdgeInsets = layout.utilityButtonEdgeInsets
+        button.addTarget(self, action: #selector(presentFullScreen), for: .touchUpInside)
+        return button
+    }()
+    
     init(isExpanded: Bool, cellHeight: CGFloat, style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.isExpanded = isExpanded
         self.cellHeight = cellHeight
@@ -83,6 +98,7 @@ final class DiceCell: UITableViewCell {
         contentView.addSubview(utilityButton)
         contentView.addSubview(diceLabel)
         contentView.addSubview(diceButton)
+        contentView.addSubview(fullScreenButton)
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: layout.titleLabelPadding),
@@ -101,15 +117,25 @@ final class DiceCell: UITableViewCell {
             diceButton.centerXAnchor.constraint(equalTo: diceLabel.centerXAnchor),
             diceButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: layout.diceButtonTopPadding),
             diceButton.widthAnchor.constraint(equalTo: diceLabel.widthAnchor),
-            diceButton.heightAnchor.constraint(equalTo: diceLabel.heightAnchor)
+            diceButton.heightAnchor.constraint(equalTo: diceLabel.heightAnchor),
+            
+            fullScreenButton.trailingAnchor.constraint(equalTo: utilityButton.trailingAnchor),
+            fullScreenButton.topAnchor.constraint(equalTo: utilityButton.bottomAnchor, constant: 16),
+            fullScreenButton.widthAnchor.constraint(equalTo: utilityButton.widthAnchor),
+            fullScreenButton.heightAnchor.constraint(equalTo: utilityButton.heightAnchor)
         ])
         
         diceLabel.isHidden = !isExpanded
         diceButton.isHidden = !isExpanded
+        fullScreenButton.isHidden = !isExpanded
     }
     
     @objc private func rollDice() {
         let diceRoll = Int.random(in: 1...6)
         diceLabel.text = "Roll result: \(diceRoll)"
+    }
+    
+    @objc private func presentFullScreen() {
+        print("Full screen")
     }
 }
