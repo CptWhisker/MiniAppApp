@@ -4,7 +4,6 @@ import UIKit
 struct CounterCellLayout {
     let cellHeight: CGFloat
     
-    var utilityButtonEdgeInsets: UIEdgeInsets { return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)}
     var utilityButtonPadding: CGFloat { return -16 }
     var utilityButtonWidth: CGFloat { return 75 }
     var utilityButtonHeightMultiplier: CGFloat { return 0.5 }
@@ -50,7 +49,6 @@ final class CounterCell: UITableViewCell {
         button.layer.cornerRadius = 8
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16)
-        button.titleEdgeInsets = layout.utilityButtonEdgeInsets
         return button
     }()
     private lazy var counterLabel: UILabel = {
@@ -104,7 +102,6 @@ final class CounterCell: UITableViewCell {
         button.layer.cornerRadius = 8
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16)
-        button.titleEdgeInsets = layout.utilityButtonEdgeInsets
         button.addTarget(self, action: #selector(presentFullScreen), for: .touchUpInside)
         return button
     }()

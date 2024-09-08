@@ -4,7 +4,6 @@ import UIKit
 struct DiceCellLayout {
     let cellHeight: CGFloat
     
-    var utilityButtonEdgeInsets: UIEdgeInsets { return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)}
     var utilityButtonPadding: CGFloat { return -16 }
     var utilityButtonWidth: CGFloat { return 75 }
     var utilityButtonHeightMultiplier: CGFloat { return 0.5 }
@@ -20,7 +19,7 @@ struct DiceCellLayout {
     var labelHeightMultiplier: CGFloat { return 0.25 }
 }
 
-final class DiceCell: UITableViewCell {
+public final class DiceCell: UITableViewCell {
     // MARK: - Properties
     private var diceType: DiceType
     private var isExpanded: Bool
@@ -42,7 +41,6 @@ final class DiceCell: UITableViewCell {
         button.layer.cornerRadius = 8
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16)
-        button.titleEdgeInsets = layout.utilityButtonEdgeInsets
         return button
     }()
     private lazy var diceLabel: UILabel = {
@@ -74,7 +72,6 @@ final class DiceCell: UITableViewCell {
         button.layer.cornerRadius = 8
         button.setTitleColor(.black, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16)
-        button.titleEdgeInsets = layout.utilityButtonEdgeInsets
         button.addTarget(self, action: #selector(presentFullScreen), for: .touchUpInside)
         return button
     }()
