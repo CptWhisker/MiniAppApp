@@ -150,26 +150,6 @@ final class DiceCell: UITableViewCell {
     
     @objc private func presentFullScreen() {
         let viewController = DiceFullScreenViewController()
-        
-        fullScreenLayout = DiceFullScreenLayout(height: viewController.view.bounds.height)
-        
-        if let fullScreenLayout {
-            viewController.addElements(
-                uiElements: [diceLabel, diceButton],
-                layoutConstraints: [
-                    diceLabel.centerXAnchor.constraint(equalTo: viewController.view.centerXAnchor),
-                    diceLabel.centerYAnchor.constraint(equalTo: viewController.view.centerYAnchor, constant: fullScreenLayout.diceLabelYPosition),
-                    diceLabel.widthAnchor.constraint(equalTo: viewController.view.widthAnchor, multiplier: fullScreenLayout.diceLabelWidthMultiplier),
-                    diceLabel.heightAnchor.constraint(equalTo: viewController.view.heightAnchor, multiplier: fullScreenLayout.diceLabelHeightMultiplier),
-                    
-                    diceButton.centerXAnchor.constraint(equalTo: diceLabel.centerXAnchor),
-                    diceButton.centerYAnchor.constraint(equalTo: viewController.view.centerYAnchor, constant: fullScreenLayout.diceButtonYPosition),
-                    diceButton.widthAnchor.constraint(equalTo: diceLabel.widthAnchor),
-                    diceButton.heightAnchor.constraint(equalTo: diceLabel.heightAnchor)
-                ],
-                actions: [#selector(rollDice): diceButton]
-            )
-        }
 
         delegate?.didTapFullScreenButton(viewController)
     }

@@ -98,6 +98,7 @@ extension MiniAppViewController: UITableViewDataSource {
             let cell = CounterCell(
                 isExpanded: expandedMiniApps.contains(indexPath),
                 cellHeight: calculatedCellHeight(indexPath),
+                delegate: self,
                 style: .default,
                 reuseIdentifier: nil
             )

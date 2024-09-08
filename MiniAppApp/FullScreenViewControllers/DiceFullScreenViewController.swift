@@ -7,51 +7,77 @@
 
 import UIKit
 
+struct FullScreenLayout {
+    let height: CGFloat
+    
+    var diceLabelYPosition: CGFloat { return -(height / 8) }
+    var diceLabelWidthMultiplier: CGFloat { return 0.5 }
+    var diceLabelHeightMultiplier: CGFloat { return 0.2 }
+    
+    var diceButtonYPosition: CGFloat { return (height / 8)}
+}
+
 final class DiceFullScreenViewController: UIViewController {
-    private var uiElements: Set<UIView>?
-    private var layoutConstraints: [NSLayoutConstraint]?
-    private var actions: [Selector: UIButton]?
-    private var diceLabel: UILabel?
+    private var fullScreenLayout: FullScreenLayout?
+    
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var diceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 25)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private lazy var diceButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Roll D6", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 20)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 16
+        button.addTarget(self, action: #selector(rollDice), for: .touchUpInside)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
         configureUI()
-        configureActions()
     }
     
     private func configureUI() {
-        guard let uiElements,
-              let layoutConstraints else { return }
+        view.backgroundColor = .white
         
-        uiElements.forEach { view.addSubview($0) }
-        NSLayoutConstraint.activate(layoutConstraints)
-    }
-    
-    private func configureActions() {
-        guard let actions else { return }
+        fullScreenLayout = FullScreenLayout(height: view.bounds.height)
         
-        for (action, button) in actions {
-            button.addTarget(self, action: action, for: .touchUpInside)
+        view.addSubview(diceLabel)
+        view.addSubview(diceButton)
+        
+        if let fullScreenLayout {
+            NSLayoutConstraint.activate([
+                diceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                diceLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: fullScreenLayout.diceLabelYPosition),
+                diceLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: fullScreenLayout.diceLabelWidthMultiplier),
+                diceLabel.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: fullScreenLayout.diceLabelHeightMultiplier),
+                
+                diceButton.centerXAnchor.constraint(equalTo: diceLabel.centerXAnchor),
+                diceButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: fullScreenLayout.diceButtonYPosition),
+                diceButton.widthAnchor.constraint(equalTo: diceLabel.widthAnchor),
+                diceButton.heightAnchor.constraint(equalTo: diceLabel.heightAnchor)
+            ])
         }
     }
     
     @objc private func rollDice() {
-        guard let diceLabel else { return }
-        
         let diceRoll = Int.random(in: 1...6)
         diceLabel.text = "Roll result: \(diceRoll)"
-    }
-    
-    func addElements(uiElements: Set<UIView>, layoutConstraints: [NSLayoutConstraint], actions: [Selector: UIButton]) {
-        self.uiElements = uiElements
-        self.layoutConstraints = layoutConstraints
-        self.actions = actions
-        
-        self.diceLabel = uiElements.compactMap { $0 as? UILabel }.first
     }
 }

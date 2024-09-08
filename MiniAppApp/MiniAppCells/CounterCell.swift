@@ -24,7 +24,10 @@ struct CounterCellLayout {
 final class CounterCell: UITableViewCell {
     var isExpanded: Bool
     var cellHeight: CGFloat
+    private weak var delegate: MiniAppCellDelegate?
     private let layout: CounterCellLayout
+//    private var fullScreenLayout: CounterFullScreenLayout?
+    
     private var counterValue: Int = 0 {
         didSet {
             counterLabel.text = "\(counterValue)"
@@ -108,12 +111,13 @@ final class CounterCell: UITableViewCell {
         return button
     }()
     
-    init(isExpanded: Bool, cellHeight: CGFloat, style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    init(isExpanded: Bool, cellHeight: CGFloat, delegate: MiniAppCellDelegate, style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.isExpanded = isExpanded
         self.cellHeight = cellHeight
+        self.delegate = delegate
         self.layout = CounterCellLayout(cellHeight: cellHeight)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
+        
         self.selectionStyle = .none
         
         utilityButton.setTitle(isExpanded ? "Collapse" : "Expand", for: .normal)
@@ -130,7 +134,7 @@ final class CounterCell: UITableViewCell {
         contentView.addSubview(counterLabel)
         contentView.addSubview(buttonsStackView)
         contentView.addSubview(fullScreenButton)
-                
+        
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: layout.titleLabelPadding),
             titleLabel.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: isExpanded ? layout.titleLabelYPositionExpanded : layout.titleLabelYPositionCollapsed),
@@ -169,6 +173,8 @@ final class CounterCell: UITableViewCell {
     }
     
     @objc private func presentFullScreen() {
-        print("Full screen")
+        let viewController = CounterFullScreenViewController()
+
+        delegate?.didTapFullScreenButton(viewController)
     }
 }

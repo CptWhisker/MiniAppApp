@@ -16,6 +16,7 @@
 		CE46F6962C8CC960004CD3C7 /* DiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F6952C8CC960004CD3C7 /* DiceCell.swift */; };
 		CE46F6982C8CDA62004CD3C7 /* CounterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F6972C8CDA62004CD3C7 /* CounterCell.swift */; };
 		CE46F6A02C8DB18F004CD3C7 /* DiceFullScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F69F2C8DB18F004CD3C7 /* DiceFullScreenViewController.swift */; };
+		CE46F6A22C8DBAE0004CD3C7 /* CounterFullScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F6A12C8DBAE0004CD3C7 /* CounterFullScreenViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		CE46F6952C8CC960004CD3C7 /* DiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceCell.swift; sourceTree = "<group>"; };
 		CE46F6972C8CDA62004CD3C7 /* CounterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterCell.swift; sourceTree = "<group>"; };
 		CE46F69F2C8DB18F004CD3C7 /* DiceFullScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceFullScreenViewController.swift; sourceTree = "<group>"; };
+		CE46F6A12C8DBAE0004CD3C7 /* CounterFullScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterFullScreenViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				CE46F69F2C8DB18F004CD3C7 /* DiceFullScreenViewController.swift */,
+				CE46F6A12C8DBAE0004CD3C7 /* CounterFullScreenViewController.swift */,
 			);
 			path = FullScreenViewControllers;
 			sourceTree = "<group>";
@@ -164,6 +167,7 @@
 			files = (
 				CE46F6982C8CDA62004CD3C7 /* CounterCell.swift in Sources */,
 				CE46F6942C8C90FC004CD3C7 /* AppCellPrototype.swift in Sources */,
+				CE46F6A22C8DBAE0004CD3C7 /* CounterFullScreenViewController.swift in Sources */,
 				CE46F6842C8C8D8D004CD3C7 /* MiniAppViewController.swift in Sources */,
 				CE46F6962C8CC960004CD3C7 /* DiceCell.swift in Sources */,
 				CE46F6802C8C8D8D004CD3C7 /* AppDelegate.swift in Sources */,
