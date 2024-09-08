@@ -19,10 +19,22 @@ struct DiceCellLayout {
     var labelHeightMultiplier: CGFloat { return 0.25 }
 }
 
+struct DiceFullScreenLayout {
+    let height: CGFloat
+    
+    var diceLabelYPosition: CGFloat { return -(height / 8) }
+    var diceLabelWidthMultiplier: CGFloat { return 0.5 }
+    var diceLabelHeightMultiplier: CGFloat { return 0.2 }
+    
+    var diceButtonYPosition: CGFloat { return (height / 8)}
+}
+
 final class DiceCell: UITableViewCell {
     var isExpanded: Bool
     var cellHeight: CGFloat
+    private weak var delegate: MiniAppCellDelegate?
     private let layout: DiceCellLayout
+    private var fullScreenLayout: DiceFullScreenLayout?
     
     lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -77,12 +89,13 @@ final class DiceCell: UITableViewCell {
         return button
     }()
     
-    init(isExpanded: Bool, cellHeight: CGFloat, style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    init(isExpanded: Bool, cellHeight: CGFloat, delegate: MiniAppCellDelegate, style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.isExpanded = isExpanded
         self.cellHeight = cellHeight
+        self.delegate = delegate
         self.layout = DiceCellLayout(cellHeight: cellHeight)
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
+        
         self.selectionStyle = .none
         
         utilityButton.setTitle(isExpanded ? "Collapse" : "Expand", for: .normal)
@@ -136,6 +149,29 @@ final class DiceCell: UITableViewCell {
     }
     
     @objc private func presentFullScreen() {
-        print("Full screen")
+        let viewController = DiceFullScreenViewController()
+        
+        fullScreenLayout = DiceFullScreenLayout(height: viewController.view.bounds.height)
+        
+        if let fullScreenLayout {
+            viewController.addElements(
+                uiElements: [diceLabel, diceButton],
+                layoutConstraints: [
+                    diceLabel.centerXAnchor.constraint(equalTo: viewController.view.centerXAnchor),
+                    diceLabel.centerYAnchor.constraint(equalTo: viewController.view.centerYAnchor, constant: fullScreenLayout.diceLabelYPosition),
+                    diceLabel.widthAnchor.constraint(equalTo: viewController.view.widthAnchor, multiplier: fullScreenLayout.diceLabelWidthMultiplier),
+                    diceLabel.heightAnchor.constraint(equalTo: viewController.view.heightAnchor, multiplier: fullScreenLayout.diceLabelHeightMultiplier),
+                    
+                    diceButton.centerXAnchor.constraint(equalTo: diceLabel.centerXAnchor),
+                    diceButton.centerYAnchor.constraint(equalTo: viewController.view.centerYAnchor, constant: fullScreenLayout.diceButtonYPosition),
+                    diceButton.widthAnchor.constraint(equalTo: diceLabel.widthAnchor),
+                    diceButton.heightAnchor.constraint(equalTo: diceLabel.heightAnchor)
+                ],
+                actions: [#selector(rollDice): diceButton]
+            )
+        }
+
+        delegate?.didTapFullScreenButton(viewController)
     }
 }
+

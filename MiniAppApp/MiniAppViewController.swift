@@ -11,6 +11,10 @@ enum MiniAppType {
     case dice, counter
 }
 
+protocol MiniAppCellDelegate: AnyObject {
+    func didTapFullScreenButton(_ viewController: UIViewController)
+}
+
 final class MiniAppViewController: UIViewController {
     private var expandedMiniApps: Set<IndexPath> = []
     private var miniApps: [MiniAppType] = []
@@ -106,6 +110,7 @@ extension MiniAppViewController: UITableViewDataSource {
             let cell = DiceCell(
                 isExpanded: expandedMiniApps.contains(indexPath),
                 cellHeight: calculatedCellHeight(indexPath),
+                delegate: self,
                 style: .default,
                 reuseIdentifier: nil
             )
@@ -120,3 +125,9 @@ extension MiniAppViewController: UITableViewDataSource {
 }
 
 extension MiniAppViewController: UITableViewDelegate {}
+
+extension MiniAppViewController: MiniAppCellDelegate {
+    func didTapFullScreenButton(_ viewController: UIViewController) {
+        present(viewController, animated: true, completion: nil)
+    }
+}
