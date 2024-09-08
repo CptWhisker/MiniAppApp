@@ -22,8 +22,9 @@ struct DiceCellLayout {
 
 final class DiceCell: UITableViewCell {
     // MARK: - Properties
-    var isExpanded: Bool
-    var cellHeight: CGFloat
+    private var diceType: DiceType
+    private var isExpanded: Bool
+    private var cellHeight: CGFloat
     private weak var delegate: MiniAppCellDelegate?
     private let layout: DiceCellLayout
     
@@ -55,7 +56,7 @@ final class DiceCell: UITableViewCell {
     private lazy var diceButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Roll D6", for: .normal)
+        button.setTitle("Roll \(diceType.description)", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20)
         button.setTitleColor(.black, for: .normal)
         button.layer.borderColor = UIColor.black.cgColor
@@ -79,7 +80,8 @@ final class DiceCell: UITableViewCell {
     }()
     
     // MARK: - Initializers
-    init(isExpanded: Bool, cellHeight: CGFloat, delegate: MiniAppCellDelegate, style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    init(diceType: DiceType, isExpanded: Bool, cellHeight: CGFloat, delegate: MiniAppCellDelegate, style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        self.diceType = diceType
         self.isExpanded = isExpanded
         self.cellHeight = cellHeight
         self.delegate = delegate
@@ -136,12 +138,12 @@ final class DiceCell: UITableViewCell {
     
     // MARK: - Actions
     @objc private func rollDice() {
-        let diceRoll = Int.random(in: 1...6)
+        let diceRoll = Int.random(in: 1...diceType.rawValue)
         diceLabel.text = "Roll result: \(diceRoll)"
     }
     
     @objc private func presentFullScreen() {
-        let viewController = DiceFullScreenViewController()
+        let viewController = DiceFullScreenViewController(diceType: diceType)
 
         delegate?.didTapFullScreenButton(viewController)
     }

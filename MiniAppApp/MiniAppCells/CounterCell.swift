@@ -24,8 +24,9 @@ struct CounterCellLayout {
 
 final class CounterCell: UITableViewCell {
     // MARK: - Properties
-    var isExpanded: Bool
-    var cellHeight: CGFloat
+    private let isColored: Bool
+    private var isExpanded: Bool
+    private var cellHeight: CGFloat
     private weak var delegate: MiniAppCellDelegate?
     private let layout: CounterCellLayout
     private var counterValue: Int = 0 {
@@ -65,8 +66,8 @@ final class CounterCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("+", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 40)
-        button.setTitleColor(.red, for: .normal)
-        button.layer.borderColor = UIColor.red.cgColor
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(incrementValue), for: .touchUpInside)
@@ -78,8 +79,8 @@ final class CounterCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("-", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 40)
-        button.setTitleColor(.blue, for: .normal)
-        button.layer.borderColor = UIColor.blue.cgColor
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(decrementValue), for: .touchUpInside)
@@ -109,7 +110,8 @@ final class CounterCell: UITableViewCell {
     }()
     
     // MARK: - Initializers
-    init(isExpanded: Bool, cellHeight: CGFloat, delegate: MiniAppCellDelegate, style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    init(isColored: Bool, isExpanded: Bool, cellHeight: CGFloat, delegate: MiniAppCellDelegate, style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        self.isColored = isColored
         self.isExpanded = isExpanded
         self.cellHeight = cellHeight
         self.delegate = delegate
@@ -133,6 +135,16 @@ final class CounterCell: UITableViewCell {
         contentView.addSubview(counterLabel)
         contentView.addSubview(buttonsStackView)
         contentView.addSubview(fullScreenButton)
+        
+        if isColored {
+            incrementButton.setTitleColor(.red, for: .normal)
+            incrementButton.layer.borderColor = UIColor.red.cgColor
+            incrementButton.backgroundColor = UIColor.red.withAlphaComponent(0.1)
+            
+            decrementButton.setTitleColor(.blue, for: .normal)
+            decrementButton.layer.borderColor = UIColor.blue.cgColor
+            decrementButton.backgroundColor = UIColor.blue.withAlphaComponent(0.1)
+        }
         
         NSLayoutConstraint.activate([
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: layout.titleLabelPadding),
@@ -173,7 +185,7 @@ final class CounterCell: UITableViewCell {
     }
     
     @objc private func presentFullScreen() {
-        let viewController = CounterFullScreenViewController()
+        let viewController = CounterFullScreenViewController(isColored: isColored)
 
         delegate?.didTapFullScreenButton(viewController)
     }

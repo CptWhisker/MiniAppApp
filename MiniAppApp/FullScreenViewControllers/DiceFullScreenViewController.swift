@@ -20,6 +20,7 @@ struct DiceFullScreenLayout {
 
 final class DiceFullScreenViewController: UIViewController {
     // MARK: - Properties
+    private var diceType: DiceType
     private var fullScreenLayout: DiceFullScreenLayout?
     
     // MARK: - UI Elements
@@ -39,7 +40,7 @@ final class DiceFullScreenViewController: UIViewController {
     private lazy var diceButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Roll D6", for: .normal)
+        button.setTitle("Roll \(diceType.description)", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20)
         button.setTitleColor(.black, for: .normal)
         button.layer.borderColor = UIColor.black.cgColor
@@ -48,6 +49,16 @@ final class DiceFullScreenViewController: UIViewController {
         button.addTarget(self, action: #selector(rollDice), for: .touchUpInside)
         return button
     }()
+    
+    // MARK: - Initializers
+    init(diceType: DiceType) {
+        self.diceType = diceType
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -82,7 +93,7 @@ final class DiceFullScreenViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func rollDice() {
-        let diceRoll = Int.random(in: 1...6)
+        let diceRoll = Int.random(in: 1...diceType.rawValue)
         diceLabel.text = "Roll result: \(diceRoll)"
     }
 }

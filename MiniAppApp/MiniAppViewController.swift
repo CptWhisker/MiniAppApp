@@ -12,6 +12,22 @@ enum MiniAppType {
     case dice, counter
 }
 
+enum DiceType: Int, CaseIterable {
+    case d6 = 6, d12 = 12, d20 = 20
+    
+    var description: String {
+        switch self {
+        case .d6: return "D6"
+        case .d12: return "D12"
+        case .d20: return "D20"
+        }
+    }
+}
+
+enum CounterType: CaseIterable {
+    case bw, colored
+}
+
 // MARK: MiniAppCellDelegate Protocol
 protocol MiniAppCellDelegate: AnyObject {
     func didTapFullScreenButton(_ viewController: UIViewController)
@@ -21,6 +37,8 @@ final class MiniAppViewController: UIViewController {
     // MARK: - Properties
     private var expandedMiniApps: Set<IndexPath> = []
     private var miniApps: [MiniAppType] = []
+    private var diceTypeMapping: [IndexPath: DiceType] = [:]
+    private var counterTypeMapping: [IndexPath: CounterType] = [:]
     private var calculatedCellHeight: (IndexPath) -> CGFloat {
         return { [weak self] indexPath in
             guard let self = self else { return 0 }
@@ -87,6 +105,26 @@ final class MiniAppViewController: UIViewController {
         
         miniAppTableView.reloadRows(at: [indexPath], with: .automatic)
     }
+    
+    private func getDiceType(for indexPath: IndexPath) -> DiceType {
+        if let result = diceTypeMapping[indexPath] {
+            return result
+        }
+        
+        let diceType = DiceType.allCases.randomElement() ?? .d6
+        diceTypeMapping[indexPath] = diceType
+        return diceType
+    }
+    
+    private func getCounterType(for indexPath: IndexPath) -> CounterType {
+        if let result = counterTypeMapping[indexPath] {
+            return result
+        }
+        
+        let counterType = CounterType.allCases.randomElement() ?? .bw
+        counterTypeMapping[indexPath] = counterType
+        return counterType
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -100,7 +138,10 @@ extension MiniAppViewController: UITableViewDataSource {
         
         switch miniAppType {
         case .counter:
+            let isColored = getCounterType(for: indexPath) == .colored ? true : false
+            
             let cell = CounterCell(
+                isColored: isColored,
                 isExpanded: expandedMiniApps.contains(indexPath),
                 cellHeight: calculatedCellHeight(indexPath),
                 delegate: self,
@@ -108,12 +149,15 @@ extension MiniAppViewController: UITableViewDataSource {
                 reuseIdentifier: nil
             )
             
-            cell.titleLabel.text = "Counter"
+            cell.titleLabel.text = "Counter - \(isColored ? "Colored" : "Black&White")"
             cell.utilityButton.tag = indexPath.row
             cell.utilityButton.addTarget(self, action: #selector(toggleExpandCollapse), for: .touchUpInside)
             return cell
         case .dice:
+            let randomDiceType = getDiceType(for: indexPath)
+            
             let cell = DiceCell(
+                diceType: randomDiceType,
                 isExpanded: expandedMiniApps.contains(indexPath),
                 cellHeight: calculatedCellHeight(indexPath),
                 delegate: self,
@@ -121,7 +165,7 @@ extension MiniAppViewController: UITableViewDataSource {
                 reuseIdentifier: nil
             )
             
-            cell.titleLabel.text = "Dice"
+            cell.titleLabel.text = "Dice - \(randomDiceType.description)"
             cell.utilityButton.tag = indexPath.row
             cell.utilityButton.addTarget(self, action: #selector(toggleExpandCollapse), for: .touchUpInside)
             

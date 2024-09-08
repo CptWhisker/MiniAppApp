@@ -23,6 +23,7 @@ struct CounterFullScreenLayout {
 
 final class CounterFullScreenViewController: UIViewController {
     // MARK: - Properties
+    private let isColored: Bool
     private var fullScreenLayout: CounterFullScreenLayout?
     private var activeConstraints: [NSLayoutConstraint] = []
     private var counterValue: Int = 0 {
@@ -73,6 +74,16 @@ final class CounterFullScreenViewController: UIViewController {
         return stackView
     }()
     
+    // MARK: - Initializers
+    init(isColored: Bool) {
+        self.isColored = isColored
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,6 +103,16 @@ final class CounterFullScreenViewController: UIViewController {
         
         view.addSubview(counterLabel)
         view.addSubview(buttonsStackView)
+        
+        if isColored {
+            incrementButton.setTitleColor(.red, for: .normal)
+            incrementButton.layer.borderColor = UIColor.red.cgColor
+            incrementButton.backgroundColor = UIColor.red.withAlphaComponent(0.1)
+            
+            decrementButton.setTitleColor(.blue, for: .normal)
+            decrementButton.layer.borderColor = UIColor.blue.cgColor
+            decrementButton.backgroundColor = UIColor.blue.withAlphaComponent(0.1)
+        }
         
         updateLayout()
     }
