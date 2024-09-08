@@ -7,27 +7,6 @@
 
 import UIKit
 
-// MARK: - MiniAppType
-enum MiniAppType {
-    case dice, counter
-}
-
-enum DiceType: Int, CaseIterable {
-    case d6 = 6, d12 = 12, d20 = 20
-    
-    var description: String {
-        switch self {
-        case .d6: return "D6"
-        case .d12: return "D12"
-        case .d20: return "D20"
-        }
-    }
-}
-
-enum CounterType: CaseIterable {
-    case bw, colored
-}
-
 // MARK: MiniAppCellDelegate Protocol
 protocol MiniAppCellDelegate: AnyObject {
     func didTapFullScreenButton(_ viewController: UIViewController)
@@ -74,6 +53,8 @@ final class MiniAppViewController: UIViewController {
     
     // MARK: - UI Configuration
     private func configureUI() {
+        view.backgroundColor = .white
+        
         view.addSubview(miniAppTableView)
         
         NSLayoutConstraint.activate([
@@ -188,6 +169,8 @@ extension MiniAppViewController: UITableViewDelegate {
 // MARK: - MiniAppCellDelegate Implementation
 extension MiniAppViewController: MiniAppCellDelegate {
     func didTapFullScreenButton(_ viewController: UIViewController) {
-        present(viewController, animated: true, completion: nil)
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        present(navigationController, animated: true, completion: nil)
     }
 }

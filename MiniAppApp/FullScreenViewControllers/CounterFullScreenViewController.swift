@@ -46,8 +46,8 @@ final class CounterFullScreenViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("+", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 40)
-        button.setTitleColor(.red, for: .normal)
-        button.layer.borderColor = UIColor.red.cgColor
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(incrementValue), for: .touchUpInside)
@@ -59,8 +59,8 @@ final class CounterFullScreenViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("-", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 40)
-        button.setTitleColor(.blue, for: .normal)
-        button.layer.borderColor = UIColor.blue.cgColor
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = UIColor.black.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 16
         button.addTarget(self, action: #selector(decrementValue), for: .touchUpInside)
@@ -101,28 +101,16 @@ final class CounterFullScreenViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
         
-        view.addSubview(counterLabel)
-        view.addSubview(buttonsStackView)
-        
-        if isColored {
-            incrementButton.setTitleColor(.red, for: .normal)
-            incrementButton.layer.borderColor = UIColor.red.cgColor
-            incrementButton.backgroundColor = UIColor.red.withAlphaComponent(0.1)
-            
-            decrementButton.setTitleColor(.blue, for: .normal)
-            decrementButton.layer.borderColor = UIColor.blue.cgColor
-            decrementButton.backgroundColor = UIColor.blue.withAlphaComponent(0.1)
-        }
-        
+        setupSubViews()
+        configureNavigationBar()
+        checkCounterType()
+
         updateLayout()
     }
     
     private func updateLayout() {
-        NSLayoutConstraint.deactivate(activeConstraints)
-        activeConstraints.removeAll()
-        
-        let isLandscape = view.bounds.width > view.bounds.height
-        fullScreenLayout = CounterFullScreenLayout(height: view.bounds.height, width: view.bounds.width, isLandscape: isLandscape)
+        deactivateConstraints()
+        defineFullScreenLayout()
         
         if let fullScreenLayout {
             activeConstraints = [
@@ -146,6 +134,41 @@ final class CounterFullScreenViewController: UIViewController {
         }
     }
     
+    private func setupSubViews() {
+        view.addSubview(counterLabel)
+        view.addSubview(buttonsStackView)
+    }
+    
+    private func deactivateConstraints() {
+        NSLayoutConstraint.deactivate(activeConstraints)
+        activeConstraints.removeAll()
+    }
+    
+    private func configureNavigationBar() {
+        navigationItem.title = "Counter"
+        let backButtonImage = UIImage(named: "arrowBackward")?.withRenderingMode(.alwaysTemplate)
+        let backButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(dismissViewController))
+        backButton.tintColor = .black
+        navigationItem.leftBarButtonItem = backButton
+    }
+    
+    private func checkCounterType() {
+        if isColored {
+            incrementButton.setTitleColor(.red, for: .normal)
+            incrementButton.layer.borderColor = UIColor.red.cgColor
+            incrementButton.backgroundColor = UIColor.red.withAlphaComponent(0.1)
+            
+            decrementButton.setTitleColor(.blue, for: .normal)
+            decrementButton.layer.borderColor = UIColor.blue.cgColor
+            decrementButton.backgroundColor = UIColor.blue.withAlphaComponent(0.1)
+        }
+    }
+    
+    private func defineFullScreenLayout() {
+        let isLandscape = view.bounds.width > view.bounds.height
+        fullScreenLayout = CounterFullScreenLayout(height: view.bounds.height, width: view.bounds.width, isLandscape: isLandscape)
+    }
+    
     // MARK: - Actions
     @objc private func incrementValue() {
         counterValue += 1
@@ -153,5 +176,9 @@ final class CounterFullScreenViewController: UIViewController {
     
     @objc private func decrementValue() {
         counterValue -= 1
+    }
+    
+    @objc private func dismissViewController() {
+        dismiss(animated: true, completion: nil)
     }
 }

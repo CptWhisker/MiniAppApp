@@ -64,6 +64,7 @@ final class DiceFullScreenViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        fullScreenLayout = DiceFullScreenLayout(height: view.bounds.height)
         configureUI()
     }
     
@@ -71,11 +72,17 @@ final class DiceFullScreenViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
         
+        configureNavigationBar()
+        setupSubViews()
+        setupConstraints()
+    }
+    
+    private func setupSubViews() {
         view.addSubview(diceLabel)
         view.addSubview(diceButton)
-        
-        fullScreenLayout = DiceFullScreenLayout(height: view.bounds.height)
-        
+    }
+    
+    private func setupConstraints() {
         if let fullScreenLayout {
             NSLayoutConstraint.activate([
                 diceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -91,9 +98,21 @@ final class DiceFullScreenViewController: UIViewController {
         }
     }
     
+    private func configureNavigationBar() {
+        navigationItem.title = "Dice"
+        let backButtonImage = UIImage(named: "arrowBackward")?.withRenderingMode(.alwaysTemplate)
+        let backButton = UIBarButtonItem(image: backButtonImage, style: .plain, target: self, action: #selector(dismissViewController))
+        backButton.tintColor = .black
+        navigationItem.leftBarButtonItem = backButton
+    }
+    
     // MARK: - Actions
     @objc private func rollDice() {
         let diceRoll = Int.random(in: 1...diceType.rawValue)
         diceLabel.text = "Roll result: \(diceRoll)"
+    }
+    
+    @objc private func dismissViewController() {
+        dismiss(animated: true, completion: nil)
     }
 }

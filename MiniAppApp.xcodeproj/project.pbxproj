@@ -17,6 +17,7 @@
 		CE46F6A02C8DB18F004CD3C7 /* DiceFullScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F69F2C8DB18F004CD3C7 /* DiceFullScreenViewController.swift */; };
 		CE46F6A22C8DBAE0004CD3C7 /* CounterFullScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F6A12C8DBAE0004CD3C7 /* CounterFullScreenViewController.swift */; };
 		CE46F6A52C8E18F8004CD3C7 /* UITableViewCell +Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F6A42C8E18F8004CD3C7 /* UITableViewCell +Extensions.swift */; };
+		CE46F6A72C8E2640004CD3C7 /* MiniAppTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F6A62C8E2640004CD3C7 /* MiniAppTypes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		CE46F69F2C8DB18F004CD3C7 /* DiceFullScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceFullScreenViewController.swift; sourceTree = "<group>"; };
 		CE46F6A12C8DBAE0004CD3C7 /* CounterFullScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterFullScreenViewController.swift; sourceTree = "<group>"; };
 		CE46F6A42C8E18F8004CD3C7 /* UITableViewCell +Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell +Extensions.swift"; sourceTree = "<group>"; };
+		CE46F6A62C8E2640004CD3C7 /* MiniAppTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniAppTypes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				CE46F6A42C8E18F8004CD3C7 /* UITableViewCell +Extensions.swift */,
+				CE46F6A62C8E2640004CD3C7 /* MiniAppTypes.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE46F6A72C8E2640004CD3C7 /* MiniAppTypes.swift in Sources */,
 				CE46F6A52C8E18F8004CD3C7 /* UITableViewCell +Extensions.swift in Sources */,
 				CE46F6982C8CDA62004CD3C7 /* CounterCell.swift in Sources */,
 				CE46F6A22C8DBAE0004CD3C7 /* CounterFullScreenViewController.swift in Sources */,

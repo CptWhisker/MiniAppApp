@@ -186,7 +186,6 @@ final class CounterCell: UITableViewCell {
     
     @objc private func presentFullScreen() {
         let viewController = CounterFullScreenViewController(isColored: isColored)
-
         delegate?.didTapFullScreenButton(viewController)
     }
 }
