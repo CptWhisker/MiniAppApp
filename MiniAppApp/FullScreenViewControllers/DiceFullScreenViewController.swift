@@ -56,10 +56,10 @@ final class DiceFullScreenViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
         
-        fullScreenLayout = FullScreenLayout(height: view.bounds.height)
-        
         view.addSubview(diceLabel)
         view.addSubview(diceButton)
+        
+        fullScreenLayout = FullScreenLayout(height: view.bounds.height)
         
         if let fullScreenLayout {
             NSLayoutConstraint.activate([
@@ -75,7 +75,7 @@ final class DiceFullScreenViewController: UIViewController {
             ])
         }
     }
-    
+        
     @objc private func rollDice() {
         let diceRoll = Int.random(in: 1...6)
         diceLabel.text = "Roll result: \(diceRoll)"

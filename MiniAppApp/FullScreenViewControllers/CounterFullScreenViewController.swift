@@ -9,18 +9,21 @@ import UIKit
 struct CounterFullScreenLayout {
     let height: CGFloat
     let width: CGFloat
+    let isLandscape: Bool
     
     var counterLabelYPosition: CGFloat { return -(height / 8) }
     var counterLabelWidthMultiplier: CGFloat { return 0.5 }
     var counterLabelHeightMultiplier: CGFloat { return 0.2 }
     
     var counterButtonYPosition: CGFloat { return (height / 8) }
-    var counterButtonWidth: CGFloat { return (width / 3) }
+    //    var counterButtonWidth: CGFloat { return (width / 3) }
+    var counterButtonWidth: CGFloat { return isLandscape ? (height / 4) : (width / 3) }
     var counterButtonSpacing: CGFloat { return (width / 9) }
 }
 
 final class CounterFullScreenViewController: UIViewController {
     private var fullScreenLayout: CounterFullScreenLayout?
+    private var activeConstraints: [NSLayoutConstraint] = []
     private var counterValue: Int = 0 {
         didSet {
             counterLabel.text = "\(counterValue)"
@@ -65,7 +68,6 @@ final class CounterFullScreenViewController: UIViewController {
         let stackView = UIStackView(arrangedSubviews: [incrementButton, decrementButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = fullScreenLayout?.counterButtonSpacing ?? 0
         return stackView
     }()
     
@@ -75,16 +77,30 @@ final class CounterFullScreenViewController: UIViewController {
         configureUI()
     }
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        updateLayout()
+    }
+    
     private func configureUI() {
         view.backgroundColor = .white
-        
-        fullScreenLayout = CounterFullScreenLayout(height: view.bounds.height, width: view.bounds.width)
-        
+                
         view.addSubview(counterLabel)
         view.addSubview(buttonsStackView)
         
+        updateLayout()
+    }
+    
+    private func updateLayout() {
+        NSLayoutConstraint.deactivate(activeConstraints)
+        activeConstraints.removeAll()
+        
+        let isLandscape = view.bounds.width > view.bounds.height
+        fullScreenLayout = CounterFullScreenLayout(height: view.bounds.height, width: view.bounds.width, isLandscape: isLandscape)
+        
         if let fullScreenLayout {
-            NSLayoutConstraint.activate([
+            activeConstraints = [
                 counterLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                 counterLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: fullScreenLayout.counterLabelYPosition),
                 counterLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: fullScreenLayout.counterLabelWidthMultiplier),
@@ -97,7 +113,11 @@ final class CounterFullScreenViewController: UIViewController {
                 incrementButton.heightAnchor.constraint(equalTo: incrementButton.widthAnchor),
                 decrementButton.widthAnchor.constraint(equalTo: incrementButton.widthAnchor),
                 decrementButton.heightAnchor.constraint(equalTo: incrementButton.heightAnchor)
-            ])
+            ]
+            
+            NSLayoutConstraint.activate(activeConstraints)
+            
+            buttonsStackView.spacing = fullScreenLayout.counterButtonSpacing
         }
     }
     
