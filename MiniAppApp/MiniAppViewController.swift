@@ -179,6 +179,10 @@ extension MiniAppViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return calculatedCellHeight(indexPath)
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.setLeftAndRightSeparatorInsets(to: 0)
+    }
 }
 
 // MARK: - MiniAppCellDelegate Implementation
