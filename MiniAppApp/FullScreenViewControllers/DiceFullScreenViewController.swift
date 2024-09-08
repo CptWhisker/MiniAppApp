@@ -7,7 +7,8 @@
 
 import UIKit
 
-struct FullScreenLayout {
+// MARK: - DiceFullScreenLayout
+struct DiceFullScreenLayout {
     let height: CGFloat
     
     var diceLabelYPosition: CGFloat { return -(height / 8) }
@@ -18,14 +19,15 @@ struct FullScreenLayout {
 }
 
 final class DiceFullScreenViewController: UIViewController {
-    private var fullScreenLayout: FullScreenLayout?
+    // MARK: - Properties
+    private var fullScreenLayout: DiceFullScreenLayout?
     
+    // MARK: - UI Elements
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-
     private lazy var diceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -33,7 +35,6 @@ final class DiceFullScreenViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
-    
     private lazy var diceButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -47,19 +48,21 @@ final class DiceFullScreenViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
     }
     
+    // MARK: - UI Configuration
     private func configureUI() {
         view.backgroundColor = .white
         
         view.addSubview(diceLabel)
         view.addSubview(diceButton)
         
-        fullScreenLayout = FullScreenLayout(height: view.bounds.height)
+        fullScreenLayout = DiceFullScreenLayout(height: view.bounds.height)
         
         if let fullScreenLayout {
             NSLayoutConstraint.activate([
@@ -75,7 +78,8 @@ final class DiceFullScreenViewController: UIViewController {
             ])
         }
     }
-        
+    
+    // MARK: - Actions
     @objc private func rollDice() {
         let diceRoll = Int.random(in: 1...6)
         diceLabel.text = "Roll result: \(diceRoll)"

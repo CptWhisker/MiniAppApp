@@ -1,5 +1,6 @@
 import UIKit
 
+// MARK: - DiceCellLayout
 struct DiceCellLayout {
     let cellHeight: CGFloat
     
@@ -19,29 +20,19 @@ struct DiceCellLayout {
     var labelHeightMultiplier: CGFloat { return 0.25 }
 }
 
-struct DiceFullScreenLayout {
-    let height: CGFloat
-    
-    var diceLabelYPosition: CGFloat { return -(height / 8) }
-    var diceLabelWidthMultiplier: CGFloat { return 0.5 }
-    var diceLabelHeightMultiplier: CGFloat { return 0.2 }
-    
-    var diceButtonYPosition: CGFloat { return (height / 8)}
-}
-
 final class DiceCell: UITableViewCell {
+    // MARK: - Properties
     var isExpanded: Bool
     var cellHeight: CGFloat
     private weak var delegate: MiniAppCellDelegate?
     private let layout: DiceCellLayout
-    private var fullScreenLayout: DiceFullScreenLayout?
     
+    // MARK: - UI Elements
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     lazy var utilityButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +44,6 @@ final class DiceCell: UITableViewCell {
         button.titleEdgeInsets = layout.utilityButtonEdgeInsets
         return button
     }()
-    
     private lazy var diceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -61,7 +51,6 @@ final class DiceCell: UITableViewCell {
         label.textAlignment = .center
         return label
     }()
-    
     private lazy var diceButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -74,7 +63,6 @@ final class DiceCell: UITableViewCell {
         button.addTarget(self, action: #selector(rollDice), for: .touchUpInside)
         return button
     }()
-    
     private lazy var fullScreenButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -89,6 +77,7 @@ final class DiceCell: UITableViewCell {
         return button
     }()
     
+    // MARK: - Initializers
     init(isExpanded: Bool, cellHeight: CGFloat, delegate: MiniAppCellDelegate, style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.isExpanded = isExpanded
         self.cellHeight = cellHeight
@@ -106,6 +95,7 @@ final class DiceCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - UI Configuration
     private func configureUI() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(utilityButton)
@@ -143,6 +133,7 @@ final class DiceCell: UITableViewCell {
         fullScreenButton.isHidden = !isExpanded
     }
     
+    // MARK: - Actions
     @objc private func rollDice() {
         let diceRoll = Int.random(in: 1...6)
         diceLabel.text = "Roll result: \(diceRoll)"

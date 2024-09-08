@@ -6,6 +6,7 @@
 //
 
 import UIKit
+// MARK: - CounterFullScreenLayout
 struct CounterFullScreenLayout {
     let height: CGFloat
     let width: CGFloat
@@ -16,12 +17,12 @@ struct CounterFullScreenLayout {
     var counterLabelHeightMultiplier: CGFloat { return 0.2 }
     
     var counterButtonYPosition: CGFloat { return (height / 8) }
-    //    var counterButtonWidth: CGFloat { return (width / 3) }
     var counterButtonWidth: CGFloat { return isLandscape ? (height / 4) : (width / 3) }
     var counterButtonSpacing: CGFloat { return (width / 9) }
 }
 
 final class CounterFullScreenViewController: UIViewController {
+    // MARK: - Properties
     private var fullScreenLayout: CounterFullScreenLayout?
     private var activeConstraints: [NSLayoutConstraint] = []
     private var counterValue: Int = 0 {
@@ -30,6 +31,7 @@ final class CounterFullScreenViewController: UIViewController {
         }
     }
     
+    // MARK: - UI Elements
     private lazy var counterLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -71,6 +73,7 @@ final class CounterFullScreenViewController: UIViewController {
         return stackView
     }()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -83,9 +86,10 @@ final class CounterFullScreenViewController: UIViewController {
         updateLayout()
     }
     
+    // MARK: - UI Configuration
     private func configureUI() {
         view.backgroundColor = .white
-                
+        
         view.addSubview(counterLabel)
         view.addSubview(buttonsStackView)
         
@@ -121,6 +125,7 @@ final class CounterFullScreenViewController: UIViewController {
         }
     }
     
+    // MARK: - Actions
     @objc private func incrementValue() {
         counterValue += 1
     }

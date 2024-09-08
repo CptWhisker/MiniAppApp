@@ -12,7 +12,6 @@
 		CE46F6842C8C8D8D004CD3C7 /* MiniAppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F6832C8C8D8D004CD3C7 /* MiniAppViewController.swift */; };
 		CE46F6892C8C8D90004CD3C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE46F6882C8C8D90004CD3C7 /* Assets.xcassets */; };
 		CE46F68C2C8C8D90004CD3C7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE46F68A2C8C8D90004CD3C7 /* LaunchScreen.storyboard */; };
-		CE46F6942C8C90FC004CD3C7 /* AppCellPrototype.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F6932C8C90FC004CD3C7 /* AppCellPrototype.swift */; };
 		CE46F6962C8CC960004CD3C7 /* DiceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F6952C8CC960004CD3C7 /* DiceCell.swift */; };
 		CE46F6982C8CDA62004CD3C7 /* CounterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F6972C8CDA62004CD3C7 /* CounterCell.swift */; };
 		CE46F6A02C8DB18F004CD3C7 /* DiceFullScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE46F69F2C8DB18F004CD3C7 /* DiceFullScreenViewController.swift */; };
@@ -27,7 +26,6 @@
 		CE46F6882C8C8D90004CD3C7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CE46F68B2C8C8D90004CD3C7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CE46F68D2C8C8D90004CD3C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CE46F6932C8C90FC004CD3C7 /* AppCellPrototype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCellPrototype.swift; sourceTree = "<group>"; };
 		CE46F6952C8CC960004CD3C7 /* DiceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceCell.swift; sourceTree = "<group>"; };
 		CE46F6972C8CDA62004CD3C7 /* CounterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CounterCell.swift; sourceTree = "<group>"; };
 		CE46F69F2C8DB18F004CD3C7 /* DiceFullScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiceFullScreenViewController.swift; sourceTree = "<group>"; };
@@ -64,15 +62,14 @@
 		CE46F67E2C8C8D8D004CD3C7 /* MiniAppApp */ = {
 			isa = PBXGroup;
 			children = (
-				CE46F69E2C8DB163004CD3C7 /* MiniAppCells */,
-				CE46F69D2C8DB150004CD3C7 /* FullScreenViewControllers */,
 				CE46F67F2C8C8D8D004CD3C7 /* AppDelegate.swift */,
 				CE46F6812C8C8D8D004CD3C7 /* SceneDelegate.swift */,
+				CE46F69E2C8DB163004CD3C7 /* MiniAppCells */,
+				CE46F69D2C8DB150004CD3C7 /* FullScreenViewControllers */,
 				CE46F6832C8C8D8D004CD3C7 /* MiniAppViewController.swift */,
 				CE46F6882C8C8D90004CD3C7 /* Assets.xcassets */,
 				CE46F68A2C8C8D90004CD3C7 /* LaunchScreen.storyboard */,
 				CE46F68D2C8C8D90004CD3C7 /* Info.plist */,
-				CE46F6932C8C90FC004CD3C7 /* AppCellPrototype.swift */,
 			);
 			path = MiniAppApp;
 			sourceTree = "<group>";
@@ -166,7 +163,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE46F6982C8CDA62004CD3C7 /* CounterCell.swift in Sources */,
-				CE46F6942C8C90FC004CD3C7 /* AppCellPrototype.swift in Sources */,
 				CE46F6A22C8DBAE0004CD3C7 /* CounterFullScreenViewController.swift in Sources */,
 				CE46F6842C8C8D8D004CD3C7 /* MiniAppViewController.swift in Sources */,
 				CE46F6962C8CC960004CD3C7 /* DiceCell.swift in Sources */,

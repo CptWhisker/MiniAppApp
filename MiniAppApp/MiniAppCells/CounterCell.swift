@@ -1,5 +1,6 @@
 import UIKit
 
+// MARK: - CounterCellLayout
 struct CounterCellLayout {
     let cellHeight: CGFloat
     
@@ -22,17 +23,18 @@ struct CounterCellLayout {
 }
 
 final class CounterCell: UITableViewCell {
+    // MARK: - Properties
     var isExpanded: Bool
     var cellHeight: CGFloat
     private weak var delegate: MiniAppCellDelegate?
     private let layout: CounterCellLayout
-//    private var fullScreenLayout: CounterFullScreenLayout?
-    
     private var counterValue: Int = 0 {
         didSet {
             counterLabel.text = "\(counterValue)"
         }
     }
+    
+    // MARK: - UI Elements
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +52,6 @@ final class CounterCell: UITableViewCell {
         button.titleEdgeInsets = layout.utilityButtonEdgeInsets
         return button
     }()
-    
     private lazy var counterLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -59,7 +60,6 @@ final class CounterCell: UITableViewCell {
         label.textAlignment = .center
         return label
     }()
-    
     private lazy var incrementButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -73,7 +73,6 @@ final class CounterCell: UITableViewCell {
         button.widthAnchor.constraint(equalTo: button.heightAnchor).isActive = true
         return button
     }()
-    
     private lazy var decrementButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +86,6 @@ final class CounterCell: UITableViewCell {
         button.widthAnchor.constraint(equalTo: button.heightAnchor).isActive = true
         return button
     }()
-    
     private lazy var buttonsStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [incrementButton, decrementButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -96,7 +94,6 @@ final class CounterCell: UITableViewCell {
         stackView.distribution = .fillEqually
         return stackView
     }()
-    
     private lazy var fullScreenButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -111,6 +108,7 @@ final class CounterCell: UITableViewCell {
         return button
     }()
     
+    // MARK: - Initializers
     init(isExpanded: Bool, cellHeight: CGFloat, delegate: MiniAppCellDelegate, style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         self.isExpanded = isExpanded
         self.cellHeight = cellHeight
@@ -128,6 +126,7 @@ final class CounterCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - UI Configuration
     private func configureUI() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(utilityButton)
@@ -164,6 +163,7 @@ final class CounterCell: UITableViewCell {
         fullScreenButton.isHidden = !isExpanded
     }
     
+    // MARK: - Actions
     @objc private func incrementValue() {
         counterValue += 1
     }

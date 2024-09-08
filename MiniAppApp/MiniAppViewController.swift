@@ -7,15 +7,18 @@
 
 import UIKit
 
+// MARK: - MiniAppType
 enum MiniAppType {
     case dice, counter
 }
 
+// MARK: MiniAppCellDelegate Protocol
 protocol MiniAppCellDelegate: AnyObject {
     func didTapFullScreenButton(_ viewController: UIViewController)
 }
 
 final class MiniAppViewController: UIViewController {
+    // MARK: - Properties
     private var expandedMiniApps: Set<IndexPath> = []
     private var miniApps: [MiniAppType] = []
     private var calculatedCellHeight: (IndexPath) -> CGFloat {
@@ -26,14 +29,15 @@ final class MiniAppViewController: UIViewController {
         }
     }
     
+    // MARK: - UI Elements
     private lazy var miniAppTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
-        tableView.delegate = self
         return tableView
     }()
     
+    // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -49,6 +53,7 @@ final class MiniAppViewController: UIViewController {
         }, completion: nil)
     }
     
+    // MARK: - UI Configuration
     private func configureUI() {
         view.addSubview(miniAppTableView)
         
@@ -60,6 +65,7 @@ final class MiniAppViewController: UIViewController {
         ])
     }
     
+    // MARK: - Private Methods
     private func configureMiniApps() {
         let appTypes: [MiniAppType] = [.dice, .counter]
         
@@ -68,6 +74,7 @@ final class MiniAppViewController: UIViewController {
         }
     }
     
+    // MARK: - Actions
     @objc func toggleExpandCollapse(_ sender: UIButton) {
         let indexPath = IndexPath(row: sender.tag, section: 0)
         
@@ -81,6 +88,7 @@ final class MiniAppViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension MiniAppViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return miniApps.count
@@ -125,8 +133,7 @@ extension MiniAppViewController: UITableViewDataSource {
     }
 }
 
-extension MiniAppViewController: UITableViewDelegate {}
-
+// MARK: - MiniAppCellDelegate Implementation
 extension MiniAppViewController: MiniAppCellDelegate {
     func didTapFullScreenButton(_ viewController: UIViewController) {
         present(viewController, animated: true, completion: nil)
